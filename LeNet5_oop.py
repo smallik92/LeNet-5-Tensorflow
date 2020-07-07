@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 from keras import layers
-from keras.layers import Input, Dense, Activation, ZeroPadding2D, Flatten, Conv2D, AveragePooling2D, MaxPooling2D
+from keras.layers import Input, Add, Dense, Activation, ZeroPadding2D, Flatten, Conv2D, AveragePooling2D, MaxPooling2D
 from keras.models import Model, load_model
 from keras.initializers import glorot_uniform
 
@@ -20,7 +20,7 @@ class LeNet5():
         self.num_classes = num_classes
         self.hparameters = hparameters
 
-    def LeNet5_architecture(self, hparameters, num_classes, input_shape):
+    def LeNet5_architecture(self, input_shape):
 
         """
         implements the architecture of LeNet5.
@@ -28,27 +28,30 @@ class LeNet5():
         """
 
         # Convolution layer (C1) hyperparameters
-        s1 = hparameters["s1"]
-        f1 = hparameters["f1"]
-        n1 = hparameters["n1"]
+        s1 = self.hparameters["s1"]
+        f1 = self.hparameters["f1"]
+        n1 = self.hparameters["n1"]
 
         # Average pooling layer(S2) hyperparameters
-        s2 = hparameters["s2"]
-        f2 = hparameters["f2"]
+        s2 = self.hparameters["s2"]
+        f2 = self.hparameters["f2"]
 
         # Convolutional layer (C3) hyperparameters
-        s3 = hparameters["s3"]
-        f3 = hparameters["f3"]
-        n3 = hparameters["n3"]
+        s3 = self.hparameters["s3"]
+        f3 = self.hparameters["f3"]
+        n3 = self.hparameters["n3"]
 
         # Average pooling layers (S4) hyperparameters
-        s4 = hparameters["s4"]
-        f4 = hparameters["f4"]
+        s4 = self.hparameters["s4"]
+        f4 = self.hparameters["f4"]
 
         # Convolutional layer (C5) hyperparameters
-        s5 = hparameters["s5"]
-        f5 = hparameters["f5"]
-        n5 = hparameters["n5"]
+        s5 = self.hparameters["s5"]
+        f5 = self.hparameters["f5"]
+        n5 = self.hparameters["n5"]
+
+        # Number of outputs
+        num_classes = self.num_classes
 
         X_input = Input(input_shape)
         X = X_input
@@ -87,7 +90,7 @@ class LeNet5():
 
         #train
         print('Training model....')
-        model.compile(optimizer = opt, loss = 'categorical_cross_entropy', metrics = ['accuracy'])
+        model.compile(optimizer = opt, loss = 'categorical_crossentropy', metrics = ['accuracy'])
         history = model.fit(self.X_train, self.y_train, epochs = num_epochs, batch_size = batch_size)
 
         return model, history

@@ -46,8 +46,8 @@ def main():
                     "s5":1, "f5": 5, "n5": 120}
 
     lenet5_network = LeNet5(X_train, y_train, X_test, y_test, num_classes, hparameters)
-    model = lenet5_network.LeNet5_architecture(hparameters, num_classes, input_shape = (n_H0, n_W0, n_C0) )
-    model, history = lenet5_network.train(model, num_epochs = 2, batch_size = 32, learning_rate = 0.001)
+    model = lenet5_network.LeNet5_architecture(input_shape = (n_H0, n_W0, n_C0) )
+    model, history = lenet5_network.train(model, num_epochs = 50, batch_size = 32, learning_rate = 0.001)
     test_accuracy = lenet5_network.evaluate(model)
 
     print('Accuracy on test set: {:.3f} %'.format(test_accuracy*100))
